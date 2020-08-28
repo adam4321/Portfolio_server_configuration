@@ -32,6 +32,12 @@ server {
 }
 
 
+upstream bug_tracker {
+    server 127.0.0.1:50000;
+    keepalive 8;
+}
+
+
 # Server configuration after potential initial redirect -----------------------
 server {
 	# SSL configuration
@@ -104,11 +110,13 @@ server {
 
     # Bugtracker node server route --------------------------------------------
     location /bug_tracker/ {
-        root /var/www/adamjwright/html/bug_tracker;
+        root /var/www/adamjwright.com/html/bug_tracker/;
 
-        proxy_set_header   X-Forwarded-For $remote_addr;
-        proxy_set_header   Host $http_host;
-        proxy_pass http://127.0.0.1:50000/;
-        proxy_buffering off;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_pass http://bug_tracker/;
+        proxy_redirect off;
     }
 }
