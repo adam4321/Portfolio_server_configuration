@@ -12,7 +12,7 @@ ssl_certificate /etc/letsencrypt/live/adamjwright.com/fullchain.pem;
 ssl_certificate_key /etc/letsencrypt/live/adamjwright.com/privkey.pem;
 
 
-# Route all http traffic ------------------------------------------------------
+# Redirect all http traffic to SSL --------------------------------------------
 server {
     listen 80;
     server_name www.adamjwright.com adamjwright.com;
@@ -22,7 +22,7 @@ server {
 }
 
 
-# Route all https traffic -----------------------------------------------------
+# Redirect all www SSL traffic ------------------------------------------------
 server {
     listen 443 ssl http2;
     server_name www.adamjwright.com;
@@ -32,13 +32,7 @@ server {
 }
 
 
-upstream bug_tracker {
-    server 127.0.0.1:50000;
-    keepalive 8;
-}
-
-
-# Server configuration after potential initial redirect -----------------------
+# Server configuration after potential redirect -------------------------------
 server {
 	# SSL configuration
 	listen 443 ssl http2;
@@ -108,15 +102,12 @@ server {
     }
 
 
-    # Bugtracker node server route --------------------------------------------
-    location /bug_tracker/ {
-        root /var/www/adamjwright.com/html/bug_tracker/;
-
+    # # Bugtracker node server route --------------------------------------------
+    location ^~ /bug_tracker/ {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $http_host;
         proxy_set_header X-NginX-Proxy true;
-        proxy_pass http://bug_tracker/;
-        proxy_redirect off;
+        proxy_pass       http://127.0.0.1:50000/;
     }
 }
