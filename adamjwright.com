@@ -2,9 +2,12 @@
 ##  Description:  NGINX configuration file for the initial entrypoint for
 ##                personal portfolio website adamjwright.com.
 ##
-##                Configuration file location: /etc/nginx/sites-available
+##                - The root location serves the portfolio site and all other
+##                  routes are links which are called from it.
 ##
-##                Web root: /var/www/adamjwright.com/html
+##                - This configuration file's path: /etc/nginx/sites-available
+##
+##                - Web root's path: /var/www/adamjwright.com/html
 ###############################################################################
 
 # Include ssl credentials
@@ -102,7 +105,7 @@ server {
     }
 
 
-    # # Bugtracker node server route --------------------------------------------
+    # Bugtracker node server route --------------------------------------------
     location ^~ /bug_tracker/ {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
