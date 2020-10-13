@@ -99,6 +99,13 @@ server {
 		try_files $uri $uri/ =404;
 	}
 
+    # Weather Widget page route -----------------------------------------------
+    location /weather_widget {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
 
     # Wordpress blog route ----------------------------------------------------
     location /blog {
