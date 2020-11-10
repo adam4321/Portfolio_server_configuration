@@ -99,6 +99,13 @@ server {
 		try_files $uri $uri/ =404;
 	}
 
+    # Weather Widget page route -----------------------------------------------
+    location /weather_widget {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
 
     # Wordpress blog route ----------------------------------------------------
     location /blog {
@@ -120,13 +127,4 @@ server {
         proxy_set_header X-NginX-Proxy true;
         proxy_pass http://127.0.0.1:50000;
     }
-
-    # Weather Widget node server route ----------------------------------------
-    location ^~ /weather_widget/ {
-		proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-NginX-Proxy true;
-        proxy_pass http://127.0.0.1:6060;
-	}
 }
