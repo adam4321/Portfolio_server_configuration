@@ -121,19 +121,19 @@ server {
 
     # Bugtracker node server route --------------------------------------------
     location ^~ /bug_tracker/ {
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-NginX-Proxy true;
+        proxy_set_header X-Real-IP          $remote_addr;
+        proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+        proxy_set_header Host               $http_host;
+        proxy_set_header X-NginX-Proxy      true;
         proxy_pass http://127.0.0.1:50000;
     }
 
     # Quiz Soft node server route ---------------------------------------------
     location ^~ /quiz_soft/ {
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-NginX-Proxy true;
+        proxy_set_header X-Real-IP          $remote_addr;
+        proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+        proxy_set_header Host               $http_host;
+        proxy_set_header X-NginX-Proxy      true;
         proxy_pass http://127.0.0.1:3500;
     }
 }
