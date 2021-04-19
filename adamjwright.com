@@ -106,7 +106,6 @@ server {
 		try_files $uri $uri/ =404;
 	}
 
-
     # Wordpress blog route ----------------------------------------------------
     location /blog {
         try_files $uri $uri/ /blog/index.php$is_args$args;
@@ -118,14 +117,13 @@ server {
         fastcgi_pass unix:/run/php/php7.2-fpm.sock;
     }
 
-
-    # Bugtracker node server route --------------------------------------------
+    # Bugtracker Spring Boot server route -------------------------------------
     location ^~ /bug_tracker/ {
         proxy_set_header X-Real-IP          $remote_addr;
         proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
         proxy_set_header Host               $http_host;
         proxy_set_header X-NginX-Proxy      true;
-        proxy_pass http://127.0.0.1:50000;
+        proxy_pass http://127.0.0.1:5001;
     }
 
     # Quiz Soft node server route ---------------------------------------------
