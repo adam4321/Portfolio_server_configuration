@@ -51,74 +51,81 @@ server {
 
 
     # Home page route ---------------------------------------------------------
-	location / {
+	location = / {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
-		try_files $uri $uri/ =404;
+		try_files $uri/index.html $uri $uri/ =404;
 	}
+
+
+    # Remove trailing slashes from urls ---------------------------------------
+    # location ~ ^(.+)/$ {
+    #     return 301 $1$is_args$args;
+    # }
+
 
     # Amp Library page route --------------------------------------------------
     location /amp_library {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
-		try_files $uri $uri/ =404;
+		try_files $uri/index.html $uri $uri/ =404;
 	}
 
     # Quote generator page route ----------------------------------------------
     location /quote_generator {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
-		try_files $uri $uri/ =404;
+		try_files $uri/index.html $uri $uri/ =404;
 	}
 
     # Drum Machine page route -------------------------------------------------
     location /drum_machine {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
-		try_files $uri $uri/ =404;
+		try_files $uri/index.html $uri $uri/ =404;
 	}
 
     # Markdown previewer page route -------------------------------------------
     location /markdown_previewer {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
-		try_files $uri $uri/ =404;
+		try_files $uri/index.html $uri $uri/ =404;
 	}
 
     # React Calculator page route ---------------------------------------------
     location /react_calculator {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
-		try_files $uri $uri/ =404;
+		try_files $uri/index.html $uri $uri/ =404;
 	}
 
     # WASM Maze Game page route -----------------------------------------------
     location /wasm_maze_game {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
-		try_files $uri $uri/ =404;
+		try_files $uri/index.html $uri $uri/ =404;
 	}
 
     # Weather Widget page route -----------------------------------------------
     location /weather_widget {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
-		try_files $uri $uri/ =404;
+		try_files $uri/index.html $uri $uri/ =404;
 	}
 
     # Wordpress blog route ----------------------------------------------------
     location /blog {
-        try_files $uri $uri/ /blog/index.php$is_args$args;
+        try_files $uri/index.html $uri $uri/ /blog/index.php$is_args$args;
     }
 
     # Pass PHP scripts to FastCGI server
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+        fastcgi_pass unix:/run/php/php7.4-fpm.sock;
     }
 
     # Bugtracker Spring Boot server route -------------------------------------
-    location ^~ /bug_tracker/ {
+    location ^~ /bug_tracker {
         proxy_set_header X-Real-IP          $remote_addr;
         proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
         proxy_set_header Host               $http_host;
@@ -127,7 +134,7 @@ server {
     }
 
     # Quiz Soft node server route ---------------------------------------------
-    location ^~ /quiz_soft/ {
+    location ^~ /quiz_soft {
         proxy_set_header X-Real-IP          $remote_addr;
         proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
         proxy_set_header Host               $http_host;
