@@ -59,10 +59,17 @@ server {
 
 
     # Remove trailing slashes from urls ---------------------------------------
-    # location ~ ^(.+)/$ {
-    #     return 301 $1$is_args$args;
-    # }
+    location ~ ^(.+)/$ {
+        if ($request_uri = "/blog/") {
+            break;
+        }
 
+        if ($request_uri = "/blog/wp-admin/") {
+            break;
+        }
+
+        return 301 $1$is_args$args;
+    }
 
     # Amp Library page route --------------------------------------------------
     location /amp_library {
