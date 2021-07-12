@@ -58,71 +58,64 @@ server {
 	}
 
 
-    # Remove trailing slashes from urls ---------------------------------------
-    location ~ ^(.+)/$ {
-        if ($request_uri = "/blog/") {
-            break;
-        }
-
-        if ($request_uri = "/blog/wp-admin/") {
-            break;
-        }
-
-        return 301 $1$is_args$args;
+    # Remove trailing slashes from urls that don't have blog in their path ----
+    location ~* ^((?!(/blog)).+)/$ {
+        return 302 $1$is_args$args;
     }
 
+
     # Amp Library page route --------------------------------------------------
-    location /amp_library {
+    location = /amp_library {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
-		try_files $uri/index.html $uri $uri/ =404;
+		try_files $uri $uri/ =404;
 	}
 
     # Quote generator page route ----------------------------------------------
-    location /quote_generator {
+    location = /quote_generator {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
-		try_files $uri/index.html $uri $uri/ =404;
+		try_files $uri $uri/ =404;
 	}
 
     # Drum Machine page route -------------------------------------------------
-    location /drum_machine {
+    location = /drum_machine {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
-		try_files $uri/index.html $uri $uri/ =404;
+		try_files $uri $uri/ =404;
 	}
 
     # Markdown previewer page route -------------------------------------------
-    location /markdown_previewer {
+    location = /markdown_previewer {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
-		try_files $uri/index.html $uri $uri/ =404;
+		try_files $uri $uri/ =404;
 	}
 
     # React Calculator page route ---------------------------------------------
-    location /react_calculator {
+    location = /react_calculator {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
-		try_files $uri/index.html $uri $uri/ =404;
+		try_files $uri $uri/ =404;
 	}
 
     # WASM Maze Game page route -----------------------------------------------
-    location /wasm_maze_game {
+    location = /wasm_maze_game {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
-		try_files $uri/index.html $uri $uri/ =404;
+		try_files $uri $uri/ =404;
 	}
 
     # Weather Widget page route -----------------------------------------------
-    location /weather_widget {
+    location = /weather_widget {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
-		try_files $uri/index.html $uri $uri/ =404;
+		try_files $uri $uri/ =404;
 	}
 
     # Wordpress blog route ----------------------------------------------------
     location /blog {
-        try_files $uri/index.html $uri $uri/ /blog/index.php$is_args$args;
+        try_files $uri $uri/ /blog/index.php?$args;
     }
 
     # Pass PHP scripts to FastCGI server
